@@ -1,0 +1,258 @@
+
+
+@mixin transition($transition...){
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  transition: $transition;
+} // @include transition(transform 0.3s);
+
+$brand-primary: white;
+$brand-secondary: aquamarine;
+
+.crosshair {
+  .link-effect-14 {
+     a {
+        color: rgba(255, 255, 255, 0.8);
+        padding: 8px 16px;
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        transform: translateY(4px);
+        @include transition(.3s ease-out);
+        span{
+           &::before{
+              width: 5px;
+              height: 5px;
+              background: transparent;
+              content: "";
+              position: absolute;
+              left: 0;
+              top: 0;
+              border-top: 2px solid  $brand-primary;
+              border-left: 2px solid  $brand-primary;
+              @include transition (.3s);
+              opacity: 0;
+           }
+           &::after{
+              width: 5px;
+              height: 5px;
+              background: transparent;
+              content: "";
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              border-right: 2px solid  $brand-primary;
+              border-bottom: 2px solid  $brand-primary;
+              @include transition (.3s);
+              opacity: 0;
+
+           }
+        }
+        &::before {
+           width: 5px;
+           height: 5px;
+           background: transparent;
+           content: "";
+           position: absolute;
+           right: 0;
+           top: 0;
+           border-right: 2px solid  $brand-primary;
+           border-top: 2px solid  $brand-primary;
+           @include transition (.3s);
+           opacity: 0;
+        }
+        &::after {
+           width: 5px;
+           height: 5px;
+           background: transparent;
+           content: "";
+           position: absolute;
+           left: 0;
+           bottom: 0;
+           border-left: 2px solid $brand-primary;
+           border-bottom: 2px solid  $brand-primary;
+           @include transition (.3s);
+           opacity: 0;
+        }
+        &:hover{
+           color:  $brand-primary;
+           &::before{
+              opacity: 1;
+              right: 5px;
+              top: 5px;
+           }
+           &::after{
+              opacity: 1;
+              left: 5px;
+              bottom: 5px;
+           }
+           span{
+              &::before{
+                 opacity: 1;
+                 left: 5px;
+                 top: 5px;
+              }
+              &::after{
+                 opacity: 1;
+                 right: 5px;
+                 bottom: 5px;
+              }
+           }
+        }
+     }
+  }
+}
+
+#background {
+   width: 100vw;
+   height: 100vh;
+   background: transparent;
+   position: absolute;
+   z-index: -1;
+ }
+ 
+ $particleSize: 20vmin;
+ $animationDuration: 6s;
+ $amount: 20;
+ #background span {
+   width: $particleSize;
+   height: $particleSize;
+   border-radius: $particleSize;
+   backface-visibility: hidden;
+   position: absolute;
+   animation-name: move;
+   animation-duration: $animationDuration;
+   animation-timing-function: linear;
+   animation-iteration-count: infinite;
+   $colors: (
+     #583C87,
+     #E45A84,
+     #FFACAC
+   );
+   @for $i from 1 through $amount {
+     &:nth-child(#{$i}) {
+       color: nth($colors, random(length($colors)));
+       top: random(100) * 1%;
+       left: random(100) * 1%;
+       animation-duration: (random($animationDuration * 10) / 10) * 1s + 10s;
+       animation-delay: random(($animationDuration + 10s) * 10) / 10 * -1s;
+       transform-origin: (random(50) - 25) * 1vw (random(50) - 25) * 1vh;
+       $blurRadius: (random() + 0.5) * $particleSize * 0.5;
+       $x: if(random() > 0.5, -1, 1);
+       box-shadow: ($particleSize * 2 * $x) 0 $blurRadius currentColor;
+     }
+   }
+ }
+ 
+ @keyframes move {
+   100% {
+     transform: translate3d(0, 0, 1px) rotate(360deg);
+   }
+ }
+
+$animationSpeed: 30s;
+
+// Animation
+@keyframes scroll {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(calc(-250px * 7))}
+}
+
+
+// Styling
+.slider {
+   -webkit-touch-callout: none; /* iOS Safari */
+   -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Old versions of Firefox */
+       -ms-user-select: none; /* Internet Explorer/Edge */
+           user-select: none;
+	height: 100px;
+	margin: auto;
+	overflow:hidden;
+	position: relative;
+	width: 100%;
+	
+	&::before,
+	&::after {
+
+		content: "";
+		height: 100px;
+		position: absolute;
+		width: 200px;
+		z-index: 2;
+	}
+	
+	&::after {
+		right: 0;
+		top: 0;
+		transform: rotateZ(180deg);
+	}
+
+	&::before {
+		left: 0;
+		top: 0;
+	}
+	
+	.slide-track {
+		animation: scroll $animationSpeed linear infinite;
+		display: flex;
+		width: calc(250px * 14);
+	}
+	
+	.slide {
+		height: 100px;
+		width: 250px;
+	}
+}
+
+.slider-alt {
+   -webkit-touch-callout: none; /* iOS Safari */
+   -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Old versions of Firefox */
+       -ms-user-select: none; /* Internet Explorer/Edge */
+           user-select: none;
+	height: 100px;
+	margin: auto;
+	overflow:hidden;
+	position: relative;
+	width: 100%;
+	
+	&::before,
+	&::after {
+
+		content: "";
+		height: 100px;
+		position: absolute;
+		width: 200px;
+		z-index: 2;
+	}
+	
+	&::after {
+		right: 0;
+		top: 0;
+		transform: rotateZ(180deg);
+	}
+
+	&::before {
+		left: 0;
+		top: 0;
+	}
+	
+	.slide-track {
+		animation: scroll $animationSpeed linear infinite;
+      animation-direction: reverse;
+		display: flex;
+		width: calc(250px * 14);
+	}
+	
+	.slide {
+		height: 100px;
+		width: 250px;
+	}
+}
+
+.btn-primary {
+   --bs-btn-focus-shadow-rgb: none !important;  
+}
